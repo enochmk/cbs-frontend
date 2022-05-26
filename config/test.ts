@@ -11,16 +11,11 @@ const config = {
 	},
 	api: {
 		cbs: {
-			url: process.env.CBS_URL,
 			username: process.env.CBS_USERNAME,
 			password: process.env.CBS_PASSWORD,
-		},
-		mfs: {
-			url: process.env.MFS_URL,
-			username: process.env.MFS_USERNAME,
-			password: process.env.MFS_PASSWORD,
-			destinationMsisdn: process.env.MFS_DESTINATION_ACCOUNT,
-			consumerID: process.env.MFS_CONSUMER_ID,
+			firstActivation: {
+				url: process.env.FIRST_ACTIVATION_URL,
+			},
 		},
 	},
 };
