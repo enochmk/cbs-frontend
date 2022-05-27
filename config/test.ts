@@ -16,6 +16,9 @@ const config = {
 			firstActivation: {
 				url: process.env.FIRST_ACTIVATION_URL,
 			},
+			subscribeProduct: {
+				url: process.env.SUBSCRIBE_PRODUCT_URL,
+			},
 		},
 	},
 };
