@@ -13,12 +13,12 @@ const config = {
 		cbs: {
 			username: process.env.CBS_USERNAME,
 			password: process.env.CBS_PASSWORD,
-			firstActivation: {
-				url: process.env.FIRST_ACTIVATION_URL,
+			url: {
+				firstActivation: process.env.FIRST_ACTIVATION_URL,
+				subscribeProduct: process.env.SUBSCRIBE_PRODUCT_URL,
+				adjustAccount: process.env.ADJUST_ACCOUNT_URL,
 			},
-			subscribeProduct: {
-				url: process.env.SUBSCRIBE_PRODUCT_URL,
-			},
+		
 		},
 	},
 };

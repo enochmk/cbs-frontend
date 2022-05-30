@@ -6,7 +6,7 @@ import { IContext } from '../interfaces/ILogger.interface';
 import HttpError from '../utils/errors/HttpError';
 import logger from '../utils/loggers/logger';
 
-const URL: string = config.get('api.cbs.firstActivation.url');
+const URL: string = config.get('api.cbs.url.firstActivation');
 const USERNAME: string = config.get('api.cbs.username');
 const PASSWORD: string = config.get('api.cbs.password');
 const SUCCESS_CODE: string = '405000000';
@@ -72,7 +72,7 @@ const firstActivationApi = async (requestID: string, msisdn: string, remark: str
 		throw new HttpError(resultDesc, 400);
 	}
 
-	logger.info('Succesful Product Subscription', { context });
+	logger.info('First Activation Done', { context });
 	return true;
 };
 
