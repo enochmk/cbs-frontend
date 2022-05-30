@@ -17,8 +17,8 @@ const config = {
 				firstActivation: process.env.FIRST_ACTIVATION_URL,
 				subscribeProduct: process.env.SUBSCRIBE_PRODUCT_URL,
 				adjustAccount: process.env.ADJUST_ACCOUNT_URL,
+				unsubscribeProduct: process.env.UNSUBSCRIBE_PRODUCT_URL,
 			},
-		
 		},
 	},
 };
