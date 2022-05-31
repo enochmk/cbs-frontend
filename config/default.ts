@@ -18,6 +18,7 @@ const config = {
 				subscribeProduct: process.env.SUBSCRIBE_PRODUCT_URL,
 				adjustAccount: process.env.ADJUST_ACCOUNT_URL,
 				unsubscribeProduct: process.env.UNSUBSCRIBE_PRODUCT_URL,
+				changeMainProduct: process.env.CHANGE_MAIN_PRODUCT_URL,
 			},
 		},
 	},
