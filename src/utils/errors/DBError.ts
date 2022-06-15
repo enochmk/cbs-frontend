@@ -1,13 +1,18 @@
-import messages from '../messages/db.messages';
+import { IContext } from '../../interfaces/ILogger.interface';
+import messages from '../../messages/db.messages';
 
-class DBError extends Error {
+class DbError extends Error {
 	statusCode: number;
 
-	constructor(message: string, statusCode: number) {
+	context: IContext;
+
+	constructor(message: string, context: IContext) {
 		super(message || messages.GENERAL_DB_ERROR);
-		this.name = this.constructor.name;
-		this.statusCode = statusCode || 500;
+
+		this.name = 'DbError';
+		this.context = context;
+		this.statusCode = 500;
 	}
 }
 
-export default DBError;
+export default DbError;

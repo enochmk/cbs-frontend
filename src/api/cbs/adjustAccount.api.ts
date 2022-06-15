@@ -2,28 +2,31 @@ import axios from 'axios';
 import config from 'config';
 import xml2js from 'xml2js';
 
-import { IContext } from '../interfaces/ILogger.interface';
-import HttpError from '../utils/errors/HttpError';
-import logger from '../utils/loggers/logger';
+import { IContext } from '../../interfaces/ILogger.interface';
+import HttpError from '../../utils/errors/HttpError';
+import logger from '../../utils/loggers/logger';
 
 const URL: string = config.get('api.cbs.url.adjustAccount');
 const USERNAME: string = config.get('api.cbs.username');
 const PASSWORD: string = config.get('api.cbs.password');
 const SUCCESS_CODE: string = '405000000';
 
-const context: IContext = {
-	user: 'CBS',
-};
+interface ISubscribeProductRequest {
+	requestID: string;
+	msisdn: string;
+	accountType: string;
+	remark: string;
+}
 
-const subscribeProductApi = async (
-	requestID: string,
-	msisdn: string,
-	accounType: string,
-	remark: string
-) => {
-	context.label = 'adjustAccount';
-	context.requestID = requestID;
-	context.request = { msisdn, 'Adjust Account': accounType };
+const subscribeProductApi = async (request: ISubscribeProductRequest) => {
+	const { requestID, msisdn, accountType, remark } = request;
+
+	const context: IContext = {
+		user: 'CBS',
+		label: 'AdjustAccount',
+		requestID: requestID,
+		request: { msisdn, accountType, remark },
+	};
 
 	const soapHeader = {
 		headers: {
@@ -56,7 +59,7 @@ const subscribeProductApi = async (
               <acc1:OperateType>3</acc1:OperateType>
               <acc1:ModifyAcctFeeList>
                 <acc1:ModifyAcctFee>
-                    <acc1:AccountType>${accounType}</acc1:AccountType>
+                    <acc1:AccountType>${accountType}</acc1:AccountType>
                     <acc1:CurrAcctChgAmt>0</acc1:CurrAcctChgAmt>
                 </acc1:ModifyAcctFee>
               </acc1:ModifyAcctFeeList>
@@ -68,22 +71,20 @@ const subscribeProductApi = async (
 
 	const soapResponse = await axios.post(URL, soapRequest, soapHeader);
 	const jsonResponse = await xml2js.parseStringPromise(soapResponse.data);
-
 	const responseData = jsonResponse['soapenv:Envelope']['soapenv:Body'][0];
 
-	const adjustAccountMessage = responseData.AdjustAccountResultMsg[0].ResultHeader[0];
+	const adjustAccountMessage =
+		responseData.AdjustAccountResultMsg[0].ResultHeader[0];
 	const resultCode = adjustAccountMessage.ResultCode[0]._;
-	const resultDescription = adjustAccountMessage.ResultDesc[0]._;
-
-	context.response = { resultCode, resultDescription };
+	const resultDesc = adjustAccountMessage.ResultDesc[0]._;
+	context.response = { jsonResponse };
 
 	// ! Not successful
 	if (resultCode !== SUCCESS_CODE) {
-		logger.error('Account adjustment failed', { context });
-		throw new HttpError(resultDescription, 400);
+		throw new HttpError(resultDesc, 400, context);
 	}
 
-	logger.info('Account Adjusted successfully', { context });
+	logger.info('success', context);
 	return {
 		status: true,
 		message: 'success',

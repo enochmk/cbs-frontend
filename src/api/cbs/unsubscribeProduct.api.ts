@@ -2,28 +2,31 @@ import axios from 'axios';
 import config from 'config';
 import xml2js from 'xml2js';
 
-import { IContext } from '../interfaces/ILogger.interface';
-import HttpError from '../utils/errors/HttpError';
-import logger from '../utils/loggers/logger';
+import { IContext } from '../../interfaces/ILogger.interface';
+import HttpError from '../../utils/errors/HttpError';
+import logger from '../../utils/loggers/logger';
 
 const URL: string = config.get('api.cbs.url.unsubscribeProduct');
 const USERNAME: string = config.get('api.cbs.username');
 const PASSWORD: string = config.get('api.cbs.password');
 const SUCCESS_CODE: string = '405000000';
 
-const context: IContext = {
-	user: 'CBS',
-};
+interface IUnsubscribeProductRequest {
+	requestID: string;
+	msisdn: string;
+	productID: string;
+	remark: string;
+}
 
-const unsubscribeProductApi = async (
-	requestID: string,
-	msisdn: string,
-	productID: string,
-	remark: string
-) => {
-	context.label = 'cbsUnSubscribeAppendantProductApi';
-	context.requestID = requestID;
-	context.request = { msisdn, productID };
+const unsubscribeProductApi = async (request: IUnsubscribeProductRequest) => {
+	const { productID, msisdn, requestID, remark } = request;
+
+	const context: IContext = {
+		user: 'CBS',
+		label: 'unSubscribeAppendantProductApi',
+		requestID: requestID,
+		request: { msisdn, productID },
+	};
 
 	const soapHeader = {
 		headers: {
@@ -66,24 +69,20 @@ const unsubscribeProductApi = async (
 	const soapResponse = await axios.post(URL, soapRequest, soapHeader);
 	const jsonResponse = await xml2js.parseStringPromise(soapResponse.data);
 	const responseData = jsonResponse['soapenv:Envelope']['soapenv:Body'][0];
-	const responseHeader = responseData.UnSubscribeAppendantProductResultMsg[0].ResultHeader[0];
+	const responseHeader =
+		responseData.UnSubscribeAppendantProductResultMsg[0].ResultHeader[0];
 
 	const resultCode = responseHeader.ResultCode[0]._;
 	const resultDesc = responseHeader.ResultDesc[0]._;
-
-	context.response = { resultCode, resultDesc };
+	context.response = { jsonResponse };
 
 	// ! Not successful
 	if (resultCode !== SUCCESS_CODE) {
-		logger.error('Product subscription failed', { context });
-		throw new HttpError(resultDesc, 400);
+		throw new HttpError(resultDesc, 400, context);
 	}
 
-	logger.info('Succesful Product Subscription', { context });
-	return {
-		status: true,
-		message: 'success',
-	};
+	logger.info('success', { context });
+	return { resultCode, resultDesc };
 };
 
 export default unsubscribeProductApi;

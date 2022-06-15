@@ -1,8 +1,9 @@
 export interface IContext {
 	user: string;
-	label?: string | null;
-	requestID?: string | null;
-	request?: object | null;
+	label: string;
+	requestID: string;
+	message?: string;
+	request: object;
 	response?: object | null;
-	error?: object | null;
+	error?: object;
 }
