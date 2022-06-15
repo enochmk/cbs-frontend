@@ -1,0 +1,338 @@
+CBS API
+NB: All requests should perform IE to ensure numbers are prepaid (Paid Mode 0)
+
+1. First Activation
+Mode: Bulk
+Input: Text file with MSISDNs and Remark
+Input Format: MSISDN|Remark
+Sample Input: 277123456|Commercial Request
+Output: Text file with Success or failure (Reason included)
+API:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:acc="http://www.huawei.com/bme/cbsinterface/cbs/accountmgrmsg" xmlns:com="http://www.huawei.com/bme/cbsinterface/common" xmlns:acc1="http://www.huawei.com/bme/cbsinterface/cbs/accountmgr">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <acc:ActiveFirstRequestMsg>
+         <RequestHeader>
+            <com:CommandId>ActiveFirst</com:CommandId>
+            <com:Version>1</com:Version>
+            <com:TransactionId></com:TransactionId>
+            <com:SequenceId>1</com:SequenceId>
+            <com:RequestType>Event</com:RequestType>
+            <com:SessionEntity>
+               <com:Name></com:Name>
+               <com:Password></com:Password>
+               <com:RemoteAddress></com:RemoteAddress>
+            </com:SessionEntity>
+            <com:SerialNo>sda09sdfd4dxf</com:SerialNo>
+            <!--Optional:-->
+            <com:Remark>Webservicetesting</com:Remark>
+
+         </RequestHeader>
+         <ActiveFirstRequest>
+            <acc1:SubscriberNo>265000260</acc1:SubscriberNo>
+         </ActiveFirstRequest>
+      </acc:ActiveFirstRequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+
+2. Adjust Account
+Mode: Bulk
+Input: Text file with MSISDNs with account type, amount, and remark
+Input Format: MSISDN|ACCOUNT TYPE|REMARK
+Sample Input: 277123456|1234|Compensation
+Output: Text file with Success or failure (Reason included)
+API:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:acc="http://www.huawei.com/bme/cbsinterface/cbs/accountmgrmsg" xmlns:com="http://www.huawei.com/bme/cbsinterface/common" xmlns:acc1="http://www.huawei.com/bme/cbsinterface/cbs/accountmgr">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <acc:AdjustAccountRequestMsg>
+         <RequestHeader>
+            <com:CommandId> </com:CommandId>
+            <com:Version>1</com:Version>
+            <com:TransactionId></com:TransactionId>
+            <com:SequenceId>1</com:SequenceId>
+            <com:RequestType>Event</com:RequestType>
+            <com:SessionEntity>
+               <com:Name></com:Name>
+               <com:Password></com:Password>
+               <com:RemoteAddress></com:RemoteAddress>
+            </com:SessionEntity>
+            <com:SerialNo>56d3fdfdsvdd2o2d57s</com:SerialNo>
+            <com:Remark>Migratioddn Testing</com:Remark>
+         </RequestHeader>
+         <AdjustAccountRequest>
+            <acc1:SubscriberNo>577345445</acc1:SubscriberNo>
+            <acc1:OperateType>3</acc1:OperateType>
+            <acc1:ModifyAcctFeeList>
+               <acc1:ModifyAcctFee>
+
+                  <acc1:AccountType>2585</acc1:AccountType>
+                  <acc1:CurrAcctChgAmt>0</acc1:CurrAcctChgAmt>
+               </acc1:ModifyAcctFee>
+            </acc1:ModifyAcctFeeList>
+         </AdjustAccountRequest>
+      </acc:AdjustAccountRequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+
+3. Change Main Product
+Mode: Bulk
+Input: Text file with MSISDN and new product
+Input Format: MSISDN|NEW PRODUCT
+Sample Input: 272443199|32221
+Output: Text file with Success or failure (Reason included)
+API:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bus="http://www.huawei.com/bme/cbsinterface/cbs/businessmgrmsg" xmlns:com="http://www.huawei.com/bme/cbsinterface/common" xmlns:bus1="http://www.huawei.com/bme/cbsinterface/cbs/businessmgr">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <bus:ChangeMainProdRequestMsg>
+         <RequestHeader>
+            <com:CommandId>ChangeMainProd</com:CommandId>
+            <com:Version>1</com:Version>
+            <com:TransactionId></com:TransactionId>
+            <com:SequenceId>1</com:SequenceId>
+            <com:RequestType>Event</com:RequestType>
+            <com:SessionEntity>
+               <com:Name></com:Name>
+               <com:Password></com:Password>
+               <com:RemoteAddress></com:RemoteAddress>
+            </com:SessionEntity>
+            <com:SerialNo>57d777aaas7fd55</com:SerialNo>
+            <com:Remark>UNABLE TO ACTIVATE FUSE - 273540220</com:Remark>
+         </RequestHeader>
+         <ChangeMainProdRequest>
+            <bus1:SubscriberNo>273540220</bus1:SubscriberNo>
+            <bus1:NewMainProductId>987708304</bus1:NewMainProductId>
+            <bus1:ValidMode>4050000</bus1:ValidMode>
+         </ChangeMainProdRequest>
+      </bus:ChangeMainProdRequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+
+4. Delete Blacklist
+Mode: Bulk
+Input: Text file with MSISDNs
+Input Format: MSISDN
+Sample Input: 272443199
+Output: Text file with Success or failure (Reason included)
+API:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bus="http://www.huawei.com/bme/cbsinterface/cbs/businessmgrmsg" xmlns:com="http://www.huawei.com/bme/cbsinterface/common" xmlns:bus1="http://www.huawei.com/bme/cbsinterface/cbs/businessmgr">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <bus:DeleteRechageBlackRequestMsg>
+         <RequestHeader>
+            <com:CommandId>DeleteRechargeBlack</com:CommandId>
+            <com:Version>1</com:Version>
+            <com:TransactionId></com:TransactionId>
+            <com:SequenceId></com:SequenceId>
+            <com:RequestType>Event</com:RequestType>
+            <com:SessionEntity>
+               <com:Name></com:Name>
+               <com:Password></com:Password>
+               <com:RemoteAddress></com:RemoteAddress>
+            </com:SessionEntity>
+            <com:additionInfo>Re: Blocked Subscriber</com:additionInfo>
+            <com:SerialNo>123hgfujyasjkhfvh4abcd</com:SerialNo>
+            <com:Remark></com:Remark>
+         </RequestHeader>
+         <DeleteRechageBlackRequest>
+            <bus1:SubscriberNo>266049940</bus1:SubscriberNo>
+            <bus1:OperationType>1</bus1:OperationType>
+         </DeleteRechageBlackRequest>
+      </bus:DeleteRechageBlackRequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+
+5. Number Creation
+Mode: Bulk
+Input: Text file with MSISDN and main product
+Input Format: MSISDN|MAIN PRODUCT
+Sample Input: 272443199|32221
+Output: Text file with Success or failure (Reason included)
+API:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bus="http://www.huawei.com/bme/cbsinterface/cbs/businessmgrmsg" xmlns:com="http://www.huawei.com/bme/cbsinterface/common" xmlns:bus1="http://www.huawei.com/bme/cbsinterface/cbs/businessmgr">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <bus:NewSubscriberRequestMsg>
+         <RequestHeader>
+            <com:CommandId>NewSubscriber</com:CommandId>
+            <com:Version>1</com:Version>
+            <com:TransactionId></com:TransactionId>
+            <com:SequenceId>1</com:SequenceId>
+            <com:RequestType>Event</com:RequestType>
+            <com:SessionEntity>
+               <com:Name></com:Name>
+               <com:Password></com:Password>
+               <com:RemoteAddress></com:RemoteAddress>
+            </com:SessionEntity>
+            <com:SerialNo>4552s4ssss4tr</com:SerialNo>
+            <!--Optional:-->
+            <com:Remark>Webservice Testing</com:Remark>
+         </RequestHeader>
+         <NewSubscriberRequest>
+            <bus1:SubscriberNo>260499570</bus1:SubscriberNo>
+            <bus1:Subscriber>
+               <bus1:Lang>1</bus1:Lang>
+               <bus1:PaidMode>0</bus1:PaidMode>
+               <bus1:MainProductID>32018</bus1:MainProductID>
+            </bus1:Subscriber>
+
+         </NewSubscriberRequest>
+      </bus:NewSubscriberRequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+
+6. Subscribe Product
+Mode: Bulk
+Input: Text file with MSISDN, product, and remark
+Input Format: MSISDN|PRODUCT|REMARK
+Sample Input: 277123456|2018306821|Commercial Request
+Output: Text file with Success or failure (Reason included)
+API:
+<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:bus='http://www.huawei.com/bme/cbsinterface/cbs/businessmgrmsg' xmlns:com='http://www.huawei.com/bme/cbsinterface/common' xmlns:bus1='http://www.huawei.com/bme/cbsinterface/cbs/businessmgr'>
+		   <soapenv:Header/>
+		   <soapenv:Body>
+			  <bus:SubscribeAppendantProductRequestMsg>
+				 <RequestHeader>
+					<com:CommandId>SubscribeAppendantProduct</com:CommandId>
+					<com:Version>1</com:Version>
+					<com:TransactionId></com:TransactionId>
+					<com:SequenceId>1</com:SequenceId>
+					<com:RequestType>Event</com:RequestType>
+					<com:SessionEntity>
+					   <com:Name></com:Name>
+					   <com:Password></com:Password>
+					   <com:RemoteAddress></com:RemoteAddress>
+					</com:SessionEntity>
+					<com:SerialNo></com:SerialNo>
+				 </RequestHeader>
+				 <SubscribeAppendantProductRequest>
+					<bus1:SubscriberNo>269320946</bus1:SubscriberNo>
+					<bus1:Product>
+					   <bus1:Id>2018121931</bus1:Id>
+					   <bus1:ValidMode>4050000</bus1:ValidMode>
+					</bus1:Product>
+				 </SubscribeAppendantProductRequest>
+			  </bus:SubscribeAppendantProductRequestMsg>
+		   </soapenv:Body>
+
+
+
+7. Unsubscribe Product
+Mode: Bulk
+Input: Text file with MSISDN, product, and remark
+Input Format: MSISDN|PRODUCT|REMARK
+Sample Input: 277123456|2018306821|Commercial Request
+Output: Text file with Success or failure (Reason included)
+API:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bus="http://www.huawei.com/bme/cbsinterface/cbs/businessmgrmsg" xmlns:com="http://www.huawei.com/bme/cbsinterface/common" xmlns:bus1="http://www.huawei.com/bme/cbsinterface/cbs/businessmgr">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <bus:UnSubscribeAppendantProductRequestMsg>
+         <RequestHeader>
+            <com:CommandId>UnSubscribeAppendantProduct</com:CommandId>
+            <com:Version>1</com:Version>
+            <com:TransactionId></com:TransactionId>
+            <com:SequenceId>1</com:SequenceId>
+            <com:RequestType>Event</com:RequestType>
+            <com:SessionEntity>
+               <com:Name></com:Name>
+               <com:Password></com:Password>
+               <com:RemoteAddress>?</com:RemoteAddress>
+            </com:SessionEntity>
+            <com:SerialNo>20181sddddd</com:SerialNo>
+            <!--Optional:-->
+            <com:Remark>Webservice Testing</com:Remark>
+         </RequestHeader>
+         <UnSubscribeAppendantProductRequest>
+            <bus1:SubscriberNo>269320946</bus1:SubscriberNo>
+            <!--1 or more repetitions:-->
+            <bus1:Product>
+               <bus1:ProductID>987844631</bus1:ProductID>
+               <bus1:ValidMode>4050000</bus1:ValidMode>
+            </bus1:Product>
+         </UnSubscribeAppendantProductRequest>
+      </bus:UnSubscribeAppendantProductRequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+
+8. Resume
+API:Mode: Bulk
+Input: Text file with MSISDNs
+Input Format: MSISDN
+Sample Input: 277123456
+Output: Text file with Success or failure (Reason included)
+API:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bus="http://www.huawei.com/bme/cbsinterface/cbs/businessmgrmsg" xmlns:com="http://www.huawei.com/bme/cbsinterface/common" xmlns:bus1="http://www.huawei.com/bme/cbsinterface/cbs/businessmgr">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <bus:ReconnectRequestMsg>
+         <RequestHeader>
+            <com:CommandId>Reconnect</com:CommandId>
+            <com:Version>1</com:Version>
+            <com:TransactionId>?</com:TransactionId>
+            <com:SequenceId>1</com:SequenceId>
+            <com:RequestType>Event</com:RequestType>
+            <com:SessionEntity>
+               <com:Name></com:Name>
+               <com:Password></com:Password>
+               <com:RemoteAddress>?</com:RemoteAddress>
+            </com:SessionEntity>
+            <com:SerialNo>TestResume20220525</com:SerialNo>
+            <com:Remark>TestResume20220525</com:Remark>
+         </RequestHeader>
+         <ReconnectRequest>
+            <bus1:SubscriberNo>
+               <bus1:SubscriberNo>277550072</bus1:SubscriberNo>
+            </bus1:SubscriberNo>
+         </ReconnectRequest>
+      </bus:ReconnectRequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+
+9. Disclaim Missing
+API:Mode: Bulk
+Input: Text file with MSISDNs
+Input Format: MSISDN
+Sample Input: 277123456
+Output: Text file with Success or failure (Reason included)
+API:
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bus="http://www.huawei.com/bme/cbsinterface/cbs/businessmgrmsg" xmlns:com="http://www.huawei.com/bme/cbsinterface/common" xmlns:bus1="http://www.huawei.com/bme/cbsinterface/cbs/businessmgr">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <bus:DisclaimMissingRequestMsg>
+         <RequestHeader>
+            <com:CommandId>DisclaimMissing</com:CommandId>
+            <com:Version>1</com:Version>
+            <com:TransactionId>1</com:TransactionId>
+            <com:SequenceId>1</com:SequenceId>
+            <com:RequestType>Event</com:RequestType>
+            <com:SessionEntity>
+               <com:Name>Alawal</com:Name>
+               <com:Password>79ECD5C27DCC264115A6B1AAA05A94B67DF656238DCB7899A5EB81327B9DB2DA</com:Password>
+               <com:RemoteAddress>?</com:RemoteAddress>
+            </com:SessionEntity>
+            <com:SerialNo>Disclaim_Test_20220525</com:SerialNo>
+            <!--Optional:-->
+            <com:Remark>Disclaim_Test_20220525</com:Remark>
+         </RequestHeader>
+         <DisclaimMissingRequest>
+            <bus1:SubscriberNo>277550072</bus1:SubscriberNo>
+         </DisclaimMissingRequest>
+      </bus:DisclaimMissingRequestMsg>
+   </soapenv:Body>
+</soapenv:Envelope>
