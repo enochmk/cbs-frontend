@@ -3,7 +3,7 @@ import config from 'config';
 import xml2js from 'xml2js';
 
 import { IContext } from '../../interfaces/ILogger.interface';
-import { SubscribeAppendantProductResponse } from '../../interfaces/ISubscribeAppendant';
+import { SubscribeAppendantProductResponse } from '../../interfaces/ISubscribeAppendant.interface';
 import HttpError from '../../utils/errors/HttpError';
 import logger from '../../utils/loggers/logger';
 
@@ -66,16 +66,17 @@ const subscribeProductApi = async (input: ISubscribeProductRequest) => {
    `;
 
 	const soapResponse = await axios.post(URL, soapRequest, soapHeader);
-	const jsonResponse: SubscribeAppendantProductResponse = await xml2js.parseStringPromise(
-		soapResponse.data
-	);
+	const jsonResponse: SubscribeAppendantProductResponse =
+		await xml2js.parseStringPromise(soapResponse.data);
 
 	context.response = { soapResponse: soapResponse.data, jsonResponse };
 	const responseData = jsonResponse['soapenv:Envelope']['soapenv:Body'][0];
 	const resultCode =
-		responseData.SubscribeAppendantProductResultMsg[0].ResultHeader[0].ResultCode[0]._;
+		responseData.SubscribeAppendantProductResultMsg[0].ResultHeader[0]
+			.ResultCode[0]._;
 	const resultDesc =
-		responseData.SubscribeAppendantProductResultMsg[0].ResultHeader[0].ResultDesc[0]._;
+		responseData.SubscribeAppendantProductResultMsg[0].ResultHeader[0]
+			.ResultDesc[0]._;
 
 	// ! Not successful
 	if (resultCode !== SUCCESS_CODE) {

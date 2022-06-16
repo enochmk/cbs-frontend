@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from 'config';
 import xml2js from 'xml2js';
+import { AdjustAccountResponse } from '../../interfaces/IAdjustAccount.interface';
 
 import { IContext } from '../../interfaces/ILogger.interface';
 import HttpError from '../../utils/errors/HttpError';
@@ -16,10 +17,11 @@ interface IAdjustAccountRequest {
 	msisdn: string;
 	accountType: string;
 	remark: string;
+	amount: number | 0;
 }
 
 const adjustAccount = async (request: IAdjustAccountRequest) => {
-	const { requestID, msisdn, accountType, remark } = request;
+	const { requestID, msisdn, accountType, remark, amount } = request;
 
 	const context: IContext = {
 		user: 'CBS',
@@ -36,41 +38,44 @@ const adjustAccount = async (request: IAdjustAccountRequest) => {
 	};
 
 	const soapRequest = `
-  <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:acc="http://www.huawei.com/bme/cbsinterface/cbs/accountmgrmsg" xmlns:com="http://www.huawei.com/bme/cbsinterface/common" xmlns:acc1="http://www.huawei.com/bme/cbsinterface/cbs/accountmgr">
-    <soapenv:Header/>
-    <soapenv:Body>
-        <acc:AdjustAccountRequestMsg>
-          <RequestHeader>
-              <com:CommandId>AdjustAccount</com:CommandId>
-              <com:Version>1</com:Version>
-              <com:TransactionId>1</com:TransactionId>
-              <com:SequenceId>1</com:SequenceId>
-              <com:RequestType>Event</com:RequestType>
-              <com:SessionEntity>
-                <com:Name>${USERNAME}</com:Name>
-                <com:Password>${PASSWORD}</com:Password> 
-                <com:RemoteAddress></com:RemoteAddress>
-              </com:SessionEntity>
-              <com:SerialNo>${requestID}</com:SerialNo>
-              <com:Remark>${remark}</com:Remark>
-          </RequestHeader>
-          <AdjustAccountRequest>
-              <acc1:SubscriberNo>${msisdn}</acc1:SubscriberNo>
-              <acc1:OperateType>3</acc1:OperateType>
-              <acc1:ModifyAcctFeeList>
-                <acc1:ModifyAcctFee>
-                    <acc1:AccountType>${accountType}</acc1:AccountType>
-                    <acc1:CurrAcctChgAmt>0</acc1:CurrAcctChgAmt>
-                </acc1:ModifyAcctFee>
-              </acc1:ModifyAcctFeeList>
-          </AdjustAccountRequest>
-        </acc:AdjustAccountRequestMsg>
-    </soapenv:Body>
-  </soapenv:Envelope>
+		<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:acc="http://www.huawei.com/bme/cbsinterface/cbs/accountmgrmsg" xmlns:com="http://www.huawei.com/bme/cbsinterface/common" xmlns:acc1="http://www.huawei.com/bme/cbsinterface/cbs/accountmgr">
+			<soapenv:Header/>
+			<soapenv:Body>
+					<acc:AdjustAccountRequestMsg>
+						<RequestHeader>
+								<com:CommandId>AdjustAccount</com:CommandId>
+								<com:Version>1</com:Version>
+								<com:TransactionId>1</com:TransactionId>
+								<com:SequenceId>1</com:SequenceId>
+								<com:RequestType>Event</com:RequestType>
+								<com:SessionEntity>
+									<com:Name>${USERNAME}</com:Name>
+									<com:Password>${PASSWORD}</com:Password> 
+									<com:RemoteAddress></com:RemoteAddress>
+								</com:SessionEntity>
+								<com:SerialNo>${requestID}</com:SerialNo>
+								<com:Remark>${remark}</com:Remark>
+						</RequestHeader>
+						<AdjustAccountRequest>
+								<acc1:SubscriberNo>${msisdn}</acc1:SubscriberNo>
+								<acc1:OperateType>3</acc1:OperateType>
+								<acc1:ModifyAcctFeeList>
+									<acc1:ModifyAcctFee>
+											<acc1:AccountType>${accountType}</acc1:AccountType>
+											<acc1:CurrAcctChgAmt>${amount}</acc1:CurrAcctChgAmt>
+									</acc1:ModifyAcctFee>
+								</acc1:ModifyAcctFeeList>
+						</AdjustAccountRequest>
+					</acc:AdjustAccountRequestMsg>
+			</soapenv:Body>
+		</soapenv:Envelope>
   `;
 
 	const soapResponse = await axios.post(URL, soapRequest, soapHeader);
-	const jsonResponse = await xml2js.parseStringPromise(soapResponse.data);
+	const jsonResponse: AdjustAccountResponse = await xml2js.parseStringPromise(
+		soapResponse.data
+	);
+
 	const responseData = jsonResponse['soapenv:Envelope']['soapenv:Body'][0];
 
 	const adjustAccountMessage =
@@ -86,7 +91,11 @@ const adjustAccount = async (request: IAdjustAccountRequest) => {
 	}
 
 	logger.info('success', context);
-	return true;
+
+	return {
+		resultCode,
+		resultDesc,
+	};
 };
 
 export default adjustAccount;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from 'config';
 import xml2js from 'xml2js';
 
-import { IntegrationEnquiryResponse } from '../../interfaces/IIntegrationEnquiry';
+import { IntegrationEnquiryResponse } from '../../interfaces/IIntegrationEnquiry.interface';
 import { IContext } from '../../interfaces/ILogger.interface';
 import HttpError from '../../utils/errors/HttpError';
 import logger from '../../utils/loggers/logger';
@@ -63,9 +63,8 @@ const integrationEnquiry = async (data: IIntegrationEnquiryRequest) => {
 	`;
 
 	const soapResponseRaw = await axios.post(URL, soapRequest, headerConfig);
-	const jsonResponse: IntegrationEnquiryResponse = await xml2js.parseStringPromise(
-		soapResponseRaw.data
-	);
+	const jsonResponse: IntegrationEnquiryResponse =
+		await xml2js.parseStringPromise(soapResponseRaw.data);
 	const faultResponse = jsonResponse['soapenv:Envelope']['soapenv:Body'][0];
 	context.response = { rawResponse: soapResponseRaw.data, jsonResponse };
 
@@ -77,10 +76,17 @@ const integrationEnquiry = async (data: IIntegrationEnquiryRequest) => {
 
 	// success response
 	const soapBody = jsonResponse['soapenv:Envelope']['soapenv:Body'];
-	const integrationEnquiryResultMsg = soapBody[0].IntegrationEnquiryResultMsg[0];
-	const resultCode: string = integrationEnquiryResultMsg.ResultHeader[0].ResultCode[0]._;
-	const resultDesc: string = integrationEnquiryResultMsg.ResultHeader[0].ResultDesc[0]._;
-	context.response = { rawResponse: soapResponseRaw.data, resultCode, resultDesc };
+	const integrationEnquiryResultMsg =
+		soapBody[0].IntegrationEnquiryResultMsg[0];
+	const resultCode: string =
+		integrationEnquiryResultMsg.ResultHeader[0].ResultCode[0]._;
+	const resultDesc: string =
+		integrationEnquiryResultMsg.ResultHeader[0].ResultDesc[0]._;
+	context.response = {
+		rawResponse: soapResponseRaw.data,
+		resultCode,
+		resultDesc,
+	};
 
 	// ! Not a success result Code, throw error
 	if (resultCode !== SUCCESS_CODE) {
@@ -90,21 +96,28 @@ const integrationEnquiry = async (data: IIntegrationEnquiryRequest) => {
 	// * CBS information
 	const cbsInfo = {
 		CumulativeItemList:
-			soapBody[0].IntegrationEnquiryResultMsg[0].IntegrationEnquiryResult[0].CumulativeItemList[0],
+			soapBody[0].IntegrationEnquiryResultMsg[0].IntegrationEnquiryResult[0]
+				.CumulativeItemList[0],
 		BalanceRecordList:
-			soapBody[0].IntegrationEnquiryResultMsg[0].IntegrationEnquiryResult[0].BalanceRecordList[0],
+			soapBody[0].IntegrationEnquiryResultMsg[0].IntegrationEnquiryResult[0]
+				.BalanceRecordList[0],
 		PaidMode:
-			soapBody[0].IntegrationEnquiryResultMsg[0].IntegrationEnquiryResult[0].SubscriberInfo[0]
-				.Subscriber[0].PaidMode[0],
+			soapBody[0].IntegrationEnquiryResultMsg[0].IntegrationEnquiryResult[0]
+				.SubscriberInfo[0].Subscriber[0].PaidMode[0],
 		FirstActiveDate:
-			soapBody[0].IntegrationEnquiryResultMsg[0].IntegrationEnquiryResult[0].SubscriberState[0]
-				.FirstActiveDate[0],
+			soapBody[0].IntegrationEnquiryResultMsg[0].IntegrationEnquiryResult[0]
+				.SubscriberState[0].FirstActiveDate[0],
 		LifeCycleState:
-			soapBody[0].IntegrationEnquiryResultMsg[0].IntegrationEnquiryResult[0].SubscriberState[0]
-				.LifeCycleState[0],
+			soapBody[0].IntegrationEnquiryResultMsg[0].IntegrationEnquiryResult[0]
+				.SubscriberState[0].LifeCycleState[0],
 	};
 
-	context.response = { rawResponse: soapResponseRaw.data, resultCode, resultDesc, cbsInfo };
+	context.response = {
+		rawResponse: soapResponseRaw.data,
+		resultCode,
+		resultDesc,
+		cbsInfo,
+	};
 	logger.info(resultDesc, context);
 
 	return cbsInfo;
