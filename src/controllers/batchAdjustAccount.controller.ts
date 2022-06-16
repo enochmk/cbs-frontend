@@ -7,13 +7,15 @@ import { BatchRequestInput } from '../validations/request.schema';
 
 const batchAdjustAccount = asyncHandler(
 	async (req: Request<{}, {}, BatchRequestInput>, res: Response) => {
-		const data = req.body;
-		const file = req.file;
+		if (!req.file) throw new HttpError('Please upload a file', 400);
 
-		res.send({
-			data,
-			file,
+		const result = await batchService({
+			agentID: req.body.agentID,
+			requestID: res.locals.requestID,
+			file: req.file,
 		});
+
+		return res.json(result);
 	}
 );
 

@@ -12,12 +12,13 @@ const USERNAME = config.get('api.cbs.username') as string;
 const PASSWORD = config.get('api.cbs.password') as string;
 const SUCCESS_CODE = '405000000';
 
-interface IAdjustAccountRequest {
+export interface IAdjustAccountRequest {
 	requestID: string;
 	msisdn: string;
 	accountType: string;
 	remark: string;
-	amount: number | 0;
+	amount: number;
+	agentID: string;
 }
 
 const adjustAccount = async (request: IAdjustAccountRequest) => {
