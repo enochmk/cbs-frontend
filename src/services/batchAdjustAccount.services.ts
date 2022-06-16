@@ -1,4 +1,5 @@
 import fs from 'fs';
+
 import { IAdjustAccountRequest } from '../api/cbs/adjustAccount.api';
 import adjustAccountApi from '../api/cbs/adjustAccount.api';
 import outputLogger from '../functions/outputLogger';
@@ -54,7 +55,7 @@ const batchAdjustAccount = async (request: IRequest) => {
 	});
 
 	// return the output file destination
-	return outputDestination;
+	return { outputDestination };
 };
 
 export default batchAdjustAccount;
