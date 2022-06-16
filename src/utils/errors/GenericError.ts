@@ -1,4 +1,4 @@
-import { IContext } from '../../interfaces/Logger.interface';
+import { IContext } from '../../interfaces/ILogger.interface';
 import Messages from '../../messages/app.messages';
 
 class GenericError extends Error {

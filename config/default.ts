@@ -7,8 +7,10 @@ const config = {
 	env: process.env.NODE_ENV || 'development',
 	logger: {
 		console: true,
-		path: '',
+		dirname: `${process.env.LOG_DIRECTORY}logs/%DATE%`,
+		datePattern: 'YYYYMMDD',
 	},
+	tps: Number(process.env.TPS_LIMIT) || 50,
 	api: {
 		cbs: {
 			username: process.env.CBS_USERNAME,
@@ -21,6 +23,10 @@ const config = {
 				changeMainProduct: process.env.CHANGE_MAIN_PRODUCT_URL,
 			},
 		},
+	},
+	upload: {
+		destination: 'public/uploads',
+		output: 'public/outputs',
 	},
 };
 

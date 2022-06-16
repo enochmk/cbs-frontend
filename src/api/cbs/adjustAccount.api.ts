@@ -6,19 +6,19 @@ import { IContext } from '../../interfaces/ILogger.interface';
 import HttpError from '../../utils/errors/HttpError';
 import logger from '../../utils/loggers/logger';
 
-const URL: string = config.get('api.cbs.url.adjustAccount');
-const USERNAME: string = config.get('api.cbs.username');
-const PASSWORD: string = config.get('api.cbs.password');
-const SUCCESS_CODE: string = '405000000';
+const URL = config.get('api.cbs.url.adjustAccount') as string;
+const USERNAME = config.get('api.cbs.username') as string;
+const PASSWORD = config.get('api.cbs.password') as string;
+const SUCCESS_CODE = '405000000';
 
-interface ISubscribeProductRequest {
+interface IAdjustAccountRequest {
 	requestID: string;
 	msisdn: string;
 	accountType: string;
 	remark: string;
 }
 
-const subscribeProductApi = async (request: ISubscribeProductRequest) => {
+const adjustAccount = async (request: IAdjustAccountRequest) => {
 	const { requestID, msisdn, accountType, remark } = request;
 
 	const context: IContext = {
@@ -67,7 +67,7 @@ const subscribeProductApi = async (request: ISubscribeProductRequest) => {
         </acc:AdjustAccountRequestMsg>
     </soapenv:Body>
   </soapenv:Envelope>
-   `;
+  `;
 
 	const soapResponse = await axios.post(URL, soapRequest, soapHeader);
 	const jsonResponse = await xml2js.parseStringPromise(soapResponse.data);
@@ -81,14 +81,12 @@ const subscribeProductApi = async (request: ISubscribeProductRequest) => {
 
 	// ! Not successful
 	if (resultCode !== SUCCESS_CODE) {
+		logger.warn(resultDesc, context);
 		throw new HttpError(resultDesc, 400, context);
 	}
 
 	logger.info('success', context);
-	return {
-		status: true,
-		message: 'success',
-	};
+	return true;
 };
 
-export default subscribeProductApi;
+export default adjustAccount;
