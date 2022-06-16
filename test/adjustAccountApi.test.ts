@@ -2,7 +2,7 @@ import adjustAccount from '../src/api/cbs/adjustAccount.api';
 
 test('should adjust account', async () => {
 	const requestID = Date.now().toString();
-	const msisdn = '579204783';
+	const msisdn = '576795786';
 	const accountType = '5377';
 	const remark = 'Compensation';
 
