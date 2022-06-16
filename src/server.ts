@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import errorHandler from './middlewares/errorHandler.middleware';
 import logger from './utils/loggers/logger';
 import batchRoutes from './routes/batch.route';
+import handleRequestID from './middlewares/handleRequestID.middleware';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(helmet());
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(handleRequestID);
 app.use('/api/batch', batchRoutes);
 app.use(errorHandler);
 
