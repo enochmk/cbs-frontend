@@ -1,16 +1,14 @@
-import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
 
-import AuthLayout from './layouts/AuthLayout';
-import AdminLayout from './layouts/AdminLayout';
+import SignIn from "./pages/SignIn";
 
 function App() {
-	return (
-		<BrowserRouter>
-			<AdminLayout />
-			<AuthLayout />
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <SignIn />
+    </BrowserRouter>
+  );
 }
 
 export default App;
