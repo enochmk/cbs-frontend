@@ -1,7 +1,0 @@
-client/node_modules
-node_modules
-server/node_modules
-server/.env
-client/.env
-server/public/outputs/
-server/public/uploads/
