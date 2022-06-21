@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  ID      Int    @id @default(autoincrement())
+  KEYWORD String @unique @db.VarChar(30)
+  User    User[]
+
+  @@map("SYSTEM_ROLE_TYPE")
+}
+
+model User {
+  ID            Int       @id @default(autoincrement())
+  FIRST_NAME    String    @db.VarChar(30)
+  LAST_NAME     String    @db.VarChar(30)
+  MSISDN        String    @unique @db.VarChar(9)
+  USERNAME      String    @unique @db.VarChar(50)
+  PASSWORD      String    @db.VarChar(180)
+  ACTIVE        Int       @default(1, map: "MASTER_USER_ACTIVE_df")
+  REFRESH_TOKEN String?   @unique
+  ROLE_ID       Int       @default(1, map: "MASTER_USER_ROLE_ID_df")
+  CREATED_AT    DateTime  @default(now(), map: "MASTER_USER_CREATED_AT_df")
+  UPDATE_AT     DateTime? @updatedAt
+  ROLE          Role      @relation(fields: [ROLE_ID], references: [ID])
+
+  @@index([USERNAME])
+  @@map("MASTER_USER")
+}

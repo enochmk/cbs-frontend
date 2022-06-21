@@ -1,10 +1,10 @@
 import fs from 'fs';
 import config from 'config';
 
-import { IAdjustAccountRequest } from '../api/cbs/adjustAccount.api';
-import adjustAccountApi from '../api/cbs/adjustAccount.api';
-import outputLogger from '../functions/outputLogger';
-import createOutputDestination from '../functions/createOutputDestination';
+import { IAdjustAccountRequest } from '../../api/cbs/adjustAccount.api';
+import adjustAccountApi from '../../api/cbs/adjustAccount.api';
+import outputLogger from '../../functions/outputLogger';
+import createOutputDestination from '../../functions/createOutputDestination';
 
 interface IRequest {
 	agentID: string;
