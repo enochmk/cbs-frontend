@@ -1,11 +1,9 @@
-import { LockClosedIcon } from '@heroicons/react/solid';
-
 import AuthNavbar from '../components/Navbar/AuthNavbar';
 import AuthFooter from '../components/Footer/AuthFooter';
 
-const logoImg = require('../assets/img/logo.png');
+import logoImg from '../assets/img/logo.png';
 
-function SignIn() {
+function Dashroom() {
   return (
     <>
       <AuthNavbar />
@@ -14,7 +12,7 @@ function SignIn() {
           <div>
             <img className="mx-auto h-12 w-auto" src={logoImg} alt="logo" />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-500">
-              NOT FOUND
+              Dashboard
             </h2>
           </div>
         </div>
@@ -24,4 +22,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Dashroom;

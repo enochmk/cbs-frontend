@@ -1,7 +1,8 @@
+import { IRoute } from './interfaces/IRoute';
 import SignIn from './pages/SignIn';
 import Dashboard from './pages/Dashboard';
 
-const routes = [
+const routes: IRoute[] = [
   {
     name: 'Sign In',
     layout: 'auth',

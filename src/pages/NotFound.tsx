@@ -1,9 +1,9 @@
 import AuthNavbar from '../components/Navbar/AuthNavbar';
 import AuthFooter from '../components/Footer/AuthFooter';
 
-const logoImg = require('../assets/img/logo.png');
+import logoImg from '../assets/img/logo.png';
 
-function Dashroom() {
+function SignIn() {
   return (
     <>
       <AuthNavbar />
@@ -12,7 +12,7 @@ function Dashroom() {
           <div>
             <img className="mx-auto h-12 w-auto" src={logoImg} alt="logo" />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-500">
-              Dashboard
+              NOT FOUND
             </h2>
           </div>
         </div>
@@ -22,4 +22,4 @@ function Dashroom() {
   );
 }
 
-export default Dashroom;
+export default SignIn;

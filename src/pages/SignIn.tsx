@@ -3,7 +3,7 @@ import { LockClosedIcon } from '@heroicons/react/solid';
 import AuthNavbar from '../components/Navbar/AuthNavbar';
 import AuthFooter from '../components/Footer/AuthFooter';
 
-const logoImg = require('../assets/img/logo.png');
+import logoImg from '../assets/img/logo.png';
 
 function SignIn() {
   return (
