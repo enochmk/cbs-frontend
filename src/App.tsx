@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { IRoute } from './interfaces/IRoute';
 import AuthLayout from './layouts/AuthLayout';
@@ -24,6 +24,8 @@ function App() {
       <Route path="admin" element={<AdminLayout />}>
         {getRoutes(routes, 'admin')}
       </Route>
+
+      <Route path="/" element={<Navigate to="/admin/dashboard" />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

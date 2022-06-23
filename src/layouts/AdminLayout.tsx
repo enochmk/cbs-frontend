@@ -1,18 +1,23 @@
 import { Outlet } from 'react-router-dom';
 
 import Navbar from '../components/Navbar/AdminNavbar';
-import Footer from '../components/Footer/AuthFooter';
+import Sidebar from '../components/Sidebar/Sidebar';
+import Footer from '../components/Footer/AdminFooter';
+import PageWrapper from '../components/Wrapper/PageWrapper';
 
 function AdminLayout() {
   return (
     <>
-      <Navbar />
-      <Outlet />
-      <Footer />
+      <Sidebar />
+      <main className="md:ml-64 h-full">
+        <Navbar />
+        <PageWrapper>
+          <Outlet />
+        </PageWrapper>
+        <Footer />
+      </main>
     </>
   );
 }
-
-AdminLayout.propTypes = {};
 
 export default AdminLayout;
