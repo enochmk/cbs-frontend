@@ -24,7 +24,7 @@ function App() {
         {getRoutes(routes, 'admin')}
       </Route>
 
-      <Route path="/" element={<Navigate to="/admin/dashboard" />} />
+      <Route path="/" element={<Navigate to="/admin/adjust-account" />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
