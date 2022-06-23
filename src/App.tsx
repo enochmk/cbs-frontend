@@ -12,7 +12,6 @@ function App() {
       if (item.layout === layout) {
         return <Route key={key} path={item.path} element={item.element} />;
       }
-
       return null;
     });
 
