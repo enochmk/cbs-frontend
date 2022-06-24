@@ -4,7 +4,7 @@ interface SidebarProps {
   name: string;
   layout: string;
   path: string;
-  icon: string | null
+  icon: string | null;
 }
 
 function SidebarItem(props: SidebarProps) {
@@ -12,13 +12,12 @@ function SidebarItem(props: SidebarProps) {
   const { pathname } = location;
   const link = `/${props.layout}/${props.path}`;
 
-  const activeLinkColor = pathname === link
-    ? 'text-blue-700 hover:text-blue-500'
-    : 'text-gray-500 hover:text-gray-600';
+  const activeLinkColor =
+    pathname === link
+      ? 'text-blue-700 hover:text-blue-500'
+      : 'text-gray-500 hover:text-gray-600';
 
-  const activeIconColor = pathname === link
-    ? 'text-gray-300'
-    : 'opacity-75';
+  const activeIconColor = pathname === link ? 'text-gray-300' : 'opacity-75';
 
   return (
     <li className="items-center">

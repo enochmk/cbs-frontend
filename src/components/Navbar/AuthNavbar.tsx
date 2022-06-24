@@ -10,9 +10,7 @@ function Navbar() {
         <div className="lg:flex flex-grow items-center bg-white bg-opacity-0 lg:shadow-none">
           <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
             <li className="flex items-center">
-              <i className="fas fa-arrow text-blue-500" />
-              {' '}
-              AirtelTigo Ghana
+              <i className="fas fa-arrow text-blue-500" /> AirtelTigo Ghana
             </li>
           </ul>
         </div>
