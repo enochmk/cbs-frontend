@@ -1,46 +1,14 @@
 import fs from 'fs';
-import config from 'config';
 
 import { IAdjustAccountRequest } from '../../api/cbs/adjustAccount.api';
-import adjustAccountApi from '../../api/cbs/adjustAccount.api';
-import outputLogger from '../../functions/outputLogger';
 import createOutputDestination from '../../functions/createOutputDestination';
+import processBatchSubset from '../../helpers/processBatchSubset';
+import { IBatchRequest } from '../../interfaces/IRequest';
 
-interface IRequest {
-	agentID: string;
-	requestID: string;
-	file: Express.Multer.File;
-}
+// const LIMIT = config.get('tps') as Number;
+const LIMIT = 50;
 
-const LIMIT = config.get('tps') as Number;
-
-const processBatchSubset = async (
-	batch: Array<IAdjustAccountRequest>,
-	destination: string
-) => {
-	batch.map(async (item: IAdjustAccountRequest) => {
-		const logInfo = {
-			requestID: item.requestID,
-			agentID: item.agentID,
-			msisdn: item.msisdn,
-			status: false,
-			message: '',
-		};
-
-		try {
-			const response = await adjustAccountApi(item);
-			logInfo.status = true;
-			logInfo.message = response.resultDesc;
-		} catch (error: any) {
-			logInfo.status = false;
-			logInfo.message = error.message;
-		} finally {
-			outputLogger(destination, logInfo);
-		}
-	});
-};
-
-const batchAdjustAccount = async (request: IRequest) => {
+const adjustAccountService = async (request: IBatchRequest) => {
 	const { agentID, file, requestID } = request;
 
 	const contentArray = fs.readFileSync(file.path, 'utf8').split('\n');
@@ -60,12 +28,16 @@ const batchAdjustAccount = async (request: IRequest) => {
 	// create a directory with requestID as filename
 	const outputDestination = createOutputDestination(requestID);
 
-	const subset = [];
+	const temp = [];
 	for (let index = 0; index < batchData.length; index++) {
-		subset.push(batchData[index]);
-		if (subset.length === LIMIT || index === batchData.length - 1) {
+		temp.push(batchData[index]);
+
+		if (temp.length === LIMIT || index === batchData.length - 1) {
 			// proccess all the requests in parallel
-			await processBatchSubset(subset, outputDestination);
+			await processBatchSubset(temp, outputDestination);
+
+			// empty subset array
+			while (temp.length) temp.pop();
 		}
 	}
 
@@ -73,4 +45,4 @@ const batchAdjustAccount = async (request: IRequest) => {
 	return { outputDestination };
 };
 
-export default batchAdjustAccount;
+export default adjustAccountService;

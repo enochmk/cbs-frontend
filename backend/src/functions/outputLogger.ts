@@ -16,7 +16,7 @@ const outputLogger = (outputDestination: string, info: IContext): string => {
 		.toUpperCase()}|${info.msisdn}|${info.message}\n`;
 
 	// write/append to file
-	fs.appendFileSync(outputDestination, `${row}`);
+	fs.appendFileSync(outputDestination, `${row}`, 'utf-8');
 	return row;
 };
 
