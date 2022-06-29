@@ -2,9 +2,10 @@ import axios from '../../customs/axios';
 import { ILoginInput } from '../../interfaces/IUser';
 
 // login user
-const loginService = async (input: ILoginInput) => {
+const signInService = async (input: ILoginInput) => {
   const response = await axios.post('/auth/login', input);
-  return response.data;
+  const accessToken = response.data.accessToken as string;
+  return accessToken;
 };
 
-export default loginService;
+export default signInService;

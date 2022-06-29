@@ -3,9 +3,14 @@ import { IUserResponse } from '../../interfaces/IUser';
 
 // get user details
 const getUserDetailsService = async (
-  username: string
+  accessToken: string
 ): Promise<IUserResponse> => {
-  const response = await axios.post('/profile', { username });
+  const response = await axios.get('/profile', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
   return response.data;
 };
 

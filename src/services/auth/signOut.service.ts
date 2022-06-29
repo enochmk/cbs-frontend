@@ -1,8 +1,8 @@
 import axios from '../../customs/axios';
 
 // logout user
-const logoutService = async () => {
+const signOutService = async () => {
   await axios.post('/auth/logout');
 };
 
-export default logoutService;
+export default signOutService;
