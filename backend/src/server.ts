@@ -14,9 +14,10 @@ const app = express();
 
 const port: string = config.get('port');
 const env: string = config.get('env');
+const corsOptions: any = config.get('corsOptions');
 
 app.use(helmet());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
 app.use('/public', express.static('public'));
 app.use(express.json());
