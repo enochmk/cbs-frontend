@@ -25,6 +25,7 @@
     "react/react-in-jsx-scope": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "prettier/prettier": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "no-unused-vars": "off",
     "global-require": "off",
     "react/prop-types": "off",
