@@ -15,11 +15,7 @@ const batchAdjustAccount = asyncHandler(
 			file: req.file,
 		});
 
-		// return res.json(result);
-		// const downloadFile = `${result.outputDestination}`
-		const downloadFile = `public/outputs/20220629/ukAtXq4hEcHG0KjdoyAy6.log`;
-		res.download(downloadFile, 'output.log');
-		// res.send(downloadFile);
+		return res.json({ ...result });
 	}
 );
 
