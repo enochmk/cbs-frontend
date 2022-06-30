@@ -11,6 +11,10 @@ const createOutputDestination = (fileName: string) => {
 	if (!fs.existsSync(folder)) fs.mkdirSync(folder);
 
 	const outputDestination = `${folder}/${fileName}.log`;
+
+	// create file
+	fs.writeFileSync(outputDestination, '');
+
 	return outputDestination;
 };
 

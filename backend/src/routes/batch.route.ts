@@ -2,11 +2,13 @@ import { Router } from 'express';
 
 import upload from '../middlewares/upload.middleware';
 import validator from '../middlewares/validator.middleware';
-import batchAdjustAccount from '../controllers/batch/batchAdjustAccount.controller';
+import adjustAccountController from '../controllers/batch/adjustAccount.controller';
 import { batchRequestSchema } from '../validations/request.schema';
 
 const router = Router();
 
-router.route('/adjust-account').post(upload.single('file'), batchAdjustAccount);
+router
+	.route('/adjust-account')
+	.post(upload.single('file'), adjustAccountController);
 
 export default router;

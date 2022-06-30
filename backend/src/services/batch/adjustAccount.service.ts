@@ -1,24 +1,26 @@
+import config from 'config';
 import fs from 'fs';
 
 import { IAdjustAccountRequest } from '../../api/cbs/adjustAccount.api';
 import createOutputDestination from '../../functions/createOutputDestination';
-import processBatchSubset from '../../helpers/processBatchSubset';
+import processMultipleRequests from '../../helpers/processMultipleRequests';
 import { IBatchRequest } from '../../interfaces/IRequest';
 
-// const LIMIT = config.get('tps') as Number;
-const LIMIT = 50;
+const LIMIT = config.get('tps') as Number;
 
 const adjustAccountService = async (request: IBatchRequest) => {
 	const { agentID, file, requestID } = request;
 
-	const contentArray = fs.readFileSync(file.path, 'utf8').split('\n');
-	const batchData = contentArray.map((line: string): IAdjustAccountRequest => {
-		let rowData = line.replace('\r', '').split('|');
+	// split file contents into array
+	const rows: string[] = fs.readFileSync(file.path, 'utf8').split('\n');
+
+	const rowsData = rows.map((row: string): IAdjustAccountRequest => {
+		let data = row.replace('\r', '').split('|');
 
 		return {
-			msisdn: rowData?.[0],
-			accountType: rowData?.[1],
-			remark: rowData?.[2],
+			msisdn: data?.[0],
+			accountType: data?.[1],
+			remark: data?.[2],
 			amount: 0,
 			requestID,
 			agentID,
@@ -26,15 +28,18 @@ const adjustAccountService = async (request: IBatchRequest) => {
 	});
 
 	// create a directory with requestID as filename
-	const outputDestination = createOutputDestination(requestID);
+	const destination = createOutputDestination(requestID);
 
 	const temp = [];
-	for (let index = 0; index < batchData.length; index++) {
-		temp.push(batchData[index]);
+	for (let index = 0; index < rowsData.length; index++) {
+		temp.push(rowsData[index]);
 
-		if (temp.length === LIMIT || index === batchData.length - 1) {
+		if (temp.length === LIMIT || index === rowsData.length - 1) {
 			// proccess all the requests in parallel
-			await processBatchSubset(temp, outputDestination);
+			await processMultipleRequests({
+				destination,
+				items: temp,
+			});
 
 			// empty subset array
 			while (temp.length) temp.pop();
@@ -42,7 +47,7 @@ const adjustAccountService = async (request: IBatchRequest) => {
 	}
 
 	// return the output file destination
-	return { outputDestination };
+	return { outputDestination: destination };
 };
 
 export default adjustAccountService;
