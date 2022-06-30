@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound';
 import routes from './routes';
 import ProtectedRoute from './components/Outlet/ProtectedRoute';
 import PublicRoute from './components/Outlet/PublicRoute';
+import PersistLogin from './components/Outlet/PersistLogin';
 
 function App() {
   const getRoutes = (routes: IRoute[], layout: string) =>
@@ -19,15 +20,17 @@ function App() {
 
   return (
     <Routes>
-      <Route element={<PublicRoute />}>
-        <Route path="auth" element={<AuthLayout />}>
-          {getRoutes(routes, 'auth')}
+      <Route element={<PersistLogin />}>
+        <Route element={<PublicRoute />}>
+          <Route path="auth" element={<AuthLayout />}>
+            {getRoutes(routes, 'auth')}
+          </Route>
         </Route>
-      </Route>
 
-      <Route element={<ProtectedRoute />}>
-        <Route path="admin" element={<AdminLayout />}>
-          {getRoutes(routes, 'admin')}
+        <Route element={<ProtectedRoute />}>
+          <Route path="admin" element={<AdminLayout />}>
+            {getRoutes(routes, 'admin')}
+          </Route>
         </Route>
       </Route>
 

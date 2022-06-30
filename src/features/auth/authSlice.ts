@@ -18,11 +18,18 @@ export const authSlice = createSlice({
       state.accessToken = null;
       state.user = null;
     },
+    refreshAccessToken: (state: any, action: any) => {
+      state.accessToken = action.payload.accessToken;
+    },
+    setUser: (state: any, action: any) => {
+      state.user = action.payload.user;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { signIn, signOut } = authSlice.actions;
+export const { signIn, signOut, setUser, refreshAccessToken } =
+  authSlice.actions;
 
 // Reducer
 export default authSlice.reducer;
