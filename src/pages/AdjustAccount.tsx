@@ -6,7 +6,9 @@ import downloadOutputFile from '../helpers/downloadOutputFile';
 
 function AdjustAccount() {
   const [selectedFile, setSelectedFile] = useState<any>();
+  const [message, setMessage] = useState('');
   const user = useSelector((state: any) => state.auth.user);
+  const accessToken = useSelector((state: any) => state.auth.accessToken);
 
   const handleChange = (e: any) => {
     const fileList = e.target.files;
@@ -24,11 +26,20 @@ function AdjustAccount() {
     formData.append('agentID', user?.username || '');
 
     try {
-      const response = await backendAPI.post('/batch/adjust-account', formData);
+      const response = await backendAPI.post(
+        '/batch/adjust-account',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       const destination = response.data.outputDestination;
       await downloadOutputFile(destination);
     } catch (error: any) {
-      console.log(error);
+      const errorMessage = error?.response?.data?.message || error.message;
+      setMessage(errorMessage);
     }
   };
 
@@ -38,6 +49,26 @@ function AdjustAccount() {
         <h2 className="py-3 px-6 border-b border-gray-300 font-extrabold uppercase text-lg text-gray-700 text-center">
           Adjust Account
         </h2>
+        {message && (
+          <div className="alert alert-error shadow-lg mt-4 p-2 bg-red-500">
+            <div className="w-full justify-center text-white text-lg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current flex-shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{message}.</span>
+            </div>
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="p-6">
             <label className="block mb-2" htmlFor="file_input">
