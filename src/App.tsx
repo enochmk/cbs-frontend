@@ -5,6 +5,8 @@ import AuthLayout from './layouts/AuthLayout';
 import AdminLayout from './layouts/AdminLayout';
 import NotFound from './pages/NotFound';
 import routes from './routes';
+import ProtectedRoute from './components/Outlet/ProtectedRoute';
+import PublicRoute from './components/Outlet/PublicRoute';
 
 function App() {
   const getRoutes = (routes: IRoute[], layout: string) =>
@@ -17,11 +19,16 @@ function App() {
 
   return (
     <Routes>
-      <Route path="auth" element={<AuthLayout />}>
-        {getRoutes(routes, 'auth')}
+      <Route element={<PublicRoute />}>
+        <Route path="auth" element={<AuthLayout />}>
+          {getRoutes(routes, 'auth')}
+        </Route>
       </Route>
-      <Route path="admin" element={<AdminLayout />}>
-        {getRoutes(routes, 'admin')}
+
+      <Route element={<ProtectedRoute />}>
+        <Route path="admin" element={<AdminLayout />}>
+          {getRoutes(routes, 'admin')}
+        </Route>
       </Route>
 
       <Route path="/" element={<Navigate to="/admin/adjust-account" />} />
