@@ -2,7 +2,7 @@ import { IRoute } from './interfaces/IRoute';
 import SignIn from './pages/SignIn';
 import AdjustAccount from './pages/AdjustAccount';
 // import DeleteBlacklist from './pages/DeleteBlacklist';
-// import FirstRequest from './pages/FirstRequest';
+import FirstRequest from './pages/FirstRequest';
 // import ReconnectRequest from './pages/ReconnectRequest';
 // import SubscribeProduct from './pages/SubscribeProduct';
 // import UnsubscribeProduct from './pages/UnsubscribeProduct';
@@ -28,12 +28,12 @@ const routes: IRoute[] = [
   //   path: 'delete-blacklist',
   //   element: <DeleteBlacklist />,
   // },
-  // {
-  //   name: 'First Request',
-  //   layout: 'admin',
-  //   path: 'first-request',
-  //   element: <FirstRequest />,
-  // },
+  {
+    name: 'First Activation',
+    layout: 'admin',
+    path: 'first-activation',
+    element: <FirstRequest />,
+  },
   // {
   //   name: 'Reconnect Request',
   //   layout: 'admin',
