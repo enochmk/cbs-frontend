@@ -1,8 +1,17 @@
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signOut } from '../../features/auth/authSlice';
 import logo from '../../assets/img/logo.png';
 import avatar from '../../assets/img/avatar.png';
+import signOutService from '../../services/auth/signOut.service';
 
 function AdminNavbar() {
+  const dispatch = useDispatch();
+
+  const handleSignOut = async () => {
+    await signOutService();
+    dispatch(signOut());
+  };
+
   return (
     <nav className="border-gray-200 px-2 py-2.5 bg-gray-800">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -24,13 +33,14 @@ function AdminNavbar() {
               <li className="disabled py-2">Admin</li>
               <div className="divider" />
               <li>
-                <Link
+                <button
+                  type="button"
                   className="text-xs uppercase py-3 font-bold block"
-                  to="/auth/logout"
+                  onClick={handleSignOut}
                 >
                   <i className="fa fa-sign-out mr-3" />
                   Sign Out
-                </Link>
+                </button>
               </li>
             </ul>
           </button>
@@ -41,3 +51,4 @@ function AdminNavbar() {
 }
 
 export default AdminNavbar;
+
