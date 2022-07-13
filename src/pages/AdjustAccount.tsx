@@ -16,6 +16,10 @@ function AdjustAccount() {
     setSelectedFile(fileList[0]);
   };
 
+  const handleDownload = ()=>{
+    downloadOutputFile('public/samples/adjustAccountSample.csv');
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -83,6 +87,15 @@ function AdjustAccount() {
               className="block p-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none"
             />
           </div>
+             <p className="mb-1">
+              <i>
+                <button className="text-blue-600" onClick={handleDownload}>
+                  <i className="mr-1 ml-5 text-sm"> Click Here </i>
+                </button>
+                to download sample file
+              </i>
+            </p>
+
           <div className="py-3 px-6 border-t border-gray-300 text-gray-600 space-y-1">
             <button type="submit" className="btn btn-primary btn-block gap-2">
               <i className="fa-solid fa-upload" />
