@@ -20,6 +20,10 @@ function AdjustAccount() {
     downloadOutputFile('public/samples/firstActivationSample.csv');
   };
 
+  const handleCancel = async ()=>{
+    setMessage('');
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -57,7 +61,8 @@ function AdjustAccount() {
         {message && (
           <div className="alert alert-error shadow-lg mt-4 p-2 bg-red-500">
             <div className="w-full justify-center text-white text-lg">
-              <svg
+              <svg onClick ={()=>setMessage('')}
+
                 xmlns="http://www.w3.org/2000/svg"
                 className="stroke-current flex-shrink-0 h-6 w-6"
                 fill="none"

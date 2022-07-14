@@ -1,8 +1,9 @@
 import { IRoute } from './interfaces/IRoute';
 import SignIn from './pages/SignIn';
 import AdjustAccount from './pages/AdjustAccount';
-// import DeleteBlacklist from './pages/DeleteBlacklist';
+import DeleteBlacklist from './pages/DeleteBlacklist';
 import FirstRequest from './pages/FirstRequest';
+import ChangeMainProduct from './pages/ChangeMainProduct';
 // import ReconnectRequest from './pages/ReconnectRequest';
 // import SubscribeProduct from './pages/SubscribeProduct';
 // import UnsubscribeProduct from './pages/UnsubscribeProduct';
@@ -22,18 +23,26 @@ const routes: IRoute[] = [
     icon: 'fas fa-tv mr-2 text-sm',
     element: <AdjustAccount />,
   },
-  // {
-  //   name: 'Delete Blacklist',
-  //   layout: 'admin',
-  //   path: 'delete-blacklist',
-  //   element: <DeleteBlacklist />,
-  // },
   {
     name: 'First Activation',
     layout: 'admin',
     path: 'first-activation',
     element: <FirstRequest />,
   },
+  {
+    name: 'Change Main Product',
+    layout: 'admin',
+    path: 'change-main-product',
+    icon: 'fas fa-tv mr-2 text-sm',
+    element: <ChangeMainProduct />,
+  },
+  {
+    name: 'Delete Blacklist',
+    layout: 'admin',
+    path: 'delete-blacklist',
+    element: <DeleteBlacklist />,
+  },
+
   // {
   //   name: 'Reconnect Request',
   //   layout: 'admin',
