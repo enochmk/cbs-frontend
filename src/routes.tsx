@@ -5,7 +5,9 @@ import DeleteBlacklist from './pages/DeleteBlacklist';
 import FirstRequest from './pages/FirstRequest';
 import ChangeMainProduct from './pages/ChangeMainProduct';
 // import ReconnectRequest from './pages/ReconnectRequest';
-// import SubscribeProduct from './pages/SubscribeProduct';
+import SubscribeProduct from './pages/SubscribeProduct';
+import UnsubscribeProduct from './pages/UnsubscribeProduct';
+import NumberCreation from './pages/NumberCreation';
 // import UnsubscribeProduct from './pages/UnsubscribeProduct';
 // import NumberCreation from './pages/NumberCreation';
 
@@ -20,7 +22,6 @@ const routes: IRoute[] = [
     name: 'Adjust Account',
     layout: 'admin',
     path: 'adjust-account',
-    icon: 'fas fa-tv mr-2 text-sm',
     element: <AdjustAccount />,
   },
   {
@@ -30,10 +31,15 @@ const routes: IRoute[] = [
     element: <FirstRequest />,
   },
   {
+    name: 'Subscribe Product',
+    layout: 'admin',
+    path: 'subscribe-product',
+    element: <SubscribeProduct />,
+  },
+  {
     name: 'Change Main Product',
     layout: 'admin',
     path: 'change-main-product',
-    icon: 'fas fa-tv mr-2 text-sm',
     element: <ChangeMainProduct />,
   },
   {
@@ -49,24 +55,18 @@ const routes: IRoute[] = [
   //   path: 'reconnect-request',
   //   element: <ReconnectRequest />,
   // },
-  // {
-  //   name: 'Subscribe Product',
-  //   layout: 'admin',
-  //   path: 'subscribe-product',
-  //   element: <SubscribeProduct />,
-  // },
-  // {
-  //   name: 'Unsubscribe Product',
-  //   layout: 'admin',
-  //   path: 'unsubscribe-product',
-  //   element: <UnsubscribeProduct />,
-  // },
-  // {
-  //   name: 'Number Creation',
-  //   layout: 'admin',
-  //   path: 'number-creation',
-  //   element: <NumberCreation />,
-  // },
+  {
+    name: 'Unsubscribe Product',
+    layout: 'admin',
+    path: 'unsubscribe-product',
+    element: <UnsubscribeProduct />,
+  },
+  {
+    name: 'Number Creation',
+    layout: 'admin',
+    path: 'number-creation',
+    element: <NumberCreation />,
+  },
 ];
 
 export default routes;

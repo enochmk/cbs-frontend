@@ -49,7 +49,7 @@ function AdjustAccount() {
 
   return (
     <section className="flex flex-wrap justify-center mt-24">
-      <div className="block rounded-lg shadow-lg bg-white w-1/3">
+      <div className="block rounded-lg shadow-lg bg-white w-1/3 lg:w-3/6">
         <h2 className="py-3 px-6 border-b border-gray-300 font-extrabold uppercase text-lg text-gray-700 text-center">
           Adjust Account
         </h2>
@@ -87,14 +87,14 @@ function AdjustAccount() {
               className="block p-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none"
             />
           </div>
-             <p className="mb-1">
-              <i>
-                <button className="text-blue-600" onClick={handleDownload}>
-                  <i className="mr-1 ml-5 text-sm"> Click Here </i>
-                </button>
-                to download sample file
-              </i>
-            </p>
+          <p className="mb-1">
+            <i>
+              <button className="text-blue-600" onClick={handleDownload}>
+                <i className="mr-1 ml-5 text-sm"> Click Here </i>
+              </button>
+              to download sample file
+            </i>
+          </p>
 
           <div className="py-3 px-6 border-t border-gray-300 text-gray-600 space-y-1">
             <button type="submit" className="btn btn-primary btn-block gap-2">

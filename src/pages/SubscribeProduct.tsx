@@ -35,7 +35,7 @@ const ChangeMainProduct = () => {
 
     try {
       const response = await backendAPI.post(
-        '/batch/subscribeProduct',
+        '/batch/subscribe-product',
         formData,
         {
           headers: {
@@ -53,9 +53,9 @@ const ChangeMainProduct = () => {
 
   return (
     <section className="flex flex-wrap justify-center mt-24">
-      <div className="block rounded-lg shadow-lg bg-white w-1/3">
+      <div className="block rounded-lg shadow-lg bg-white w-1/3 lg:w-3/6 ">
         <h2 className="py-3 px-6 border-b border-gray-300 font-extrabold uppercase text-lg text-gray-700 text-center">
-          Delete Blacklist
+          Subscribe Product 
         </h2>
         {message && (
           <div className="alert alert-error shadow-lg mt-4 p-2 bg-red-500">

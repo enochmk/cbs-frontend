@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import backendAPI from '../customs/axios';
 import downloadOutputFile from '../helpers/downloadOutputFile';
 
-function AdjustAccount() {
+function firstActivation() {
   const [selectedFile, setSelectedFile] = useState<any>();
   const [message, setMessage] = useState('');
   const user = useSelector((state: any) => state.auth.user);
@@ -36,7 +36,7 @@ function AdjustAccount() {
     try {
       
       const response = await backendAPI.post(
-        '/batch/firstActivation',
+        '/batch/first-activation',
         formData,
         {
           headers: {
@@ -54,15 +54,15 @@ function AdjustAccount() {
 
   return (
     <section className="flex flex-wrap justify-center mt-24">
-      <div className="block rounded-lg shadow-lg bg-white w-1/3">
+      <div className="block rounded-lg shadow-lg bg-white w-1/3 lg:w-3/6">
         <h2 className="py-3 px-6 border-b border-gray-300 font-extrabold uppercase text-lg text-gray-700 text-center">
           First Activation
         </h2>
         {message && (
           <div className="alert alert-error shadow-lg mt-4 p-2 bg-red-500">
             <div className="w-full justify-center text-white text-lg">
-              <svg onClick ={()=>setMessage('')}
-
+              <svg
+                onClick={() => setMessage('')}
                 xmlns="http://www.w3.org/2000/svg"
                 className="stroke-current flex-shrink-0 h-6 w-6"
                 fill="none"
@@ -93,14 +93,14 @@ function AdjustAccount() {
               className="block p-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none"
             />
           </div>
-             <p className="mb-1">
-              <i>
-                <button className="text-blue-600" onClick={handleDownload}>
-                  <i className="mr-1 ml-5 text-sm"> Click Here </i>
-                </button>
-                to download sample file
-              </i>
-            </p>
+          <p className="mb-1">
+            <i>
+              <button className="text-blue-600" onClick={handleDownload}>
+                <i className="mr-1 ml-5 text-sm"> Click Here </i>
+              </button>
+              to download sample file
+            </i>
+          </p>
 
           <div className="py-3 px-6 border-t border-gray-300 text-gray-600 space-y-1">
             <button type="submit" className="btn btn-primary btn-block gap-2">
@@ -114,4 +114,4 @@ function AdjustAccount() {
   );
 }
 
-export default AdjustAccount;
+export default firstActivation;
